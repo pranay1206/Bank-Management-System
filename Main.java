@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    // Method to find account
     static BankAccount findAccount(ArrayList<BankAccount> accounts, int accNo) {
         for (BankAccount acc : accounts) {
             if (acc.accountNumber == accNo) {
@@ -37,15 +36,24 @@ public class Main {
                 case 1:
                     System.out.print("Enter Account Number: ");
                     int accNo = sc.nextInt();
-                    sc.nextLine();
 
+                    // ✅ Duplicate check
+                    if (findAccount(accounts, accNo) != null) {
+                        System.out.println("Account number already exists!");
+                        break;
+                    }
+
+                    sc.nextLine();
                     System.out.print("Enter Name: ");
                     String name = sc.nextLine();
 
                     System.out.print("Enter Initial Balance: ");
                     double bal = sc.nextDouble();
 
-                    BankAccount newAcc = new BankAccount(accNo, name, bal);
+                    System.out.print("Set PIN: ");
+                    int pin = sc.nextInt();
+
+                    BankAccount newAcc = new BankAccount(accNo, name, bal, pin);
                     accounts.add(newAcc);
 
                     System.out.println("Account Created Successfully!");
@@ -58,9 +66,17 @@ public class Main {
                     BankAccount acc1 = findAccount(accounts, dAcc);
 
                     if (acc1 != null) {
-                        System.out.print("Enter Amount: ");
-                        double amt = sc.nextDouble();
-                        acc1.deposit(amt);
+                        System.out.print("Enter PIN: ");
+                        int p = sc.nextInt();
+
+                        if (acc1.checkPin(p)) {
+                            System.out.print("Enter Amount: ");
+                            double amt = sc.nextDouble();
+                            acc1.deposit(amt);
+                            acc1.displayBalance();
+                        } else {
+                            System.out.println("Wrong PIN!");
+                        }
                     } else {
                         System.out.println("Account not found!");
                     }
@@ -73,9 +89,17 @@ public class Main {
                     BankAccount acc2 = findAccount(accounts, wAcc);
 
                     if (acc2 != null) {
-                        System.out.print("Enter Amount: ");
-                        double amt = sc.nextDouble();
-                        acc2.withdraw(amt);
+                        System.out.print("Enter PIN: ");
+                        int p = sc.nextInt();
+
+                        if (acc2.checkPin(p)) {
+                            System.out.print("Enter Amount: ");
+                            double amt = sc.nextDouble();
+                            acc2.withdraw(amt);
+                            acc2.displayBalance();
+                        } else {
+                            System.out.println("Wrong PIN!");
+                        }
                     } else {
                         System.out.println("Account not found!");
                     }
@@ -88,7 +112,14 @@ public class Main {
                     BankAccount acc3 = findAccount(accounts, bAcc);
 
                     if (acc3 != null) {
-                        acc3.displayBalance();
+                        System.out.print("Enter PIN: ");
+                        int p = sc.nextInt();
+
+                        if (acc3.checkPin(p)) {
+                            acc3.displayBalance();
+                        } else {
+                            System.out.println("Wrong PIN!");
+                        }
                     } else {
                         System.out.println("Account not found!");
                     }
@@ -101,7 +132,14 @@ public class Main {
                     BankAccount acc4 = findAccount(accounts, aAcc);
 
                     if (acc4 != null) {
-                        acc4.displayDetails();
+                        System.out.print("Enter PIN: ");
+                        int p = sc.nextInt();
+
+                        if (acc4.checkPin(p)) {
+                            acc4.displayDetails();
+                        } else {
+                            System.out.println("Wrong PIN!");
+                        }
                     } else {
                         System.out.println("Account not found!");
                     }
